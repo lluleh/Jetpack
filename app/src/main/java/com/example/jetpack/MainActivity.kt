@@ -17,10 +17,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,11 +48,32 @@ class MainActivity : ComponentActivity() {
                     //                    MyBox("LLH")
 //                    MyColumn()
 //                    MyRow()
-                    MyComplexLayout()
-
+//                    MyComplexLayout()
+                    MyStateExample()
                 }
             }
         }
+    }
+}
+
+
+@Composable
+fun MyStateExample() {
+// ahora cuando existe un cambio en la visata se vuelve a llamar el metodo y se recostrulle la vista
+//    var counter= remember{ mutableStateOf(0) } // la funcion de reemember obtiene el ultimo valor del objeto para que no se pierda y lo vuelve a asignar
+//    var counter= rememberSaveable{ mutableStateOf(0) } // la funcion rememberSaveable guarda el valor despues de reconstruir toda la vista
+    var counter by rememberSaveable{ mutableStateOf(0) }
+
+
+    Column(
+        Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = { counter += 1}) {
+            Text(text = "Pulsar")
+        }
+        Text(text = "He sido pulsado ${counter} veces")
     }
 }
 
@@ -196,6 +223,7 @@ fun MyComplexLayout() {
                 Text(text = "Ejemplo 3")
             }
         }
+        Myspacer(size = 80)
         Box(
             Modifier
                 .fillMaxWidth()
@@ -210,7 +238,7 @@ fun MyComplexLayout() {
 
 
 @Composable
-fun Myspacer(size:Int){
+fun Myspacer(size: Int) {
     Spacer(modifier = Modifier.height(size.dp))
 }
 
@@ -241,7 +269,9 @@ fun GreetingPreview() {
 //        MyBox("Android")
 //        MyColumn()
 //        MyRow()
-        MyComplexLayout()
+//        MyComplexLayout()
+        MyStateExample()
     }
+
 
 }
